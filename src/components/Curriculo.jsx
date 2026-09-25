@@ -1,108 +1,121 @@
 'use client';
 
 import { Dithering } from '@paper-design/shaders-react';
+import { gsap } from 'gsap';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { LOCALIZACAO } from '@/data/projetos';
+import styles from './Curriculo.module.css';
 
-// Edite aqui suas experiências e links
+// Edite aqui seu texto, experiências e links
+const BIO =
+    'Designer gráfico em São Paulo. Trabalho com identidade visual, editorial e interfaces, sempre partindo da tipografia. Troque este parágrafo por uma apresentação sua.';
+
 const EXPERIENCIAS = [
-    { empresa: 'Empresa', cargo: 'Estágio', periodo: '2025 → ....' },
-    { empresa: 'Empresa', cargo: 'Freelancer', periodo: '2024 → 2025' },
-    { empresa: 'Escola', cargo: 'Design', periodo: '2023 → 2026' },
-    { empresa: 'Outros', cargo: '', periodo: '2020 → 2023' },
+    { empresa: 'Empresa', cargo: 'Estágio', periodo: '2025 — atual' },
+    { empresa: 'Empresa', cargo: 'Freelancer', periodo: '2024 — 2025' },
+    { empresa: 'Escola', cargo: 'Design', periodo: '2023 — 2026' },
+    { empresa: 'Outros', cargo: 'Projetos pessoais', periodo: '2020 — 2023' },
 ];
 
 const LINKS = [
     { nome: 'Projetos', href: '/' },
-    { nome: 'Behance', href: 'https://www.behance.net/seu-usuario' },
-    { nome: 'Instagram', href: 'https://www.instagram.com/seu-usuario' },
+    { nome: 'Behance', href: 'https://www.behance.net/joaostopiglia' },
+    { nome: 'Instagram', href: 'https://www.instagram.com/joao_stopiglia/' },
     { nome: 'Email', href: 'mailto:joao.stopiglia4@gmail.com' },
 ];
 
 export default function Curriculo() {
     const [isDarkMode, setIsDarkMode] = useState(true);
+    const rootRef = useRef(null);
+
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.from('[data-linha]', {
+                yPercent: 110,
+                duration: 1.2,
+                ease: 'power4.out',
+                stagger: 0.1,
+                delay: 0.15,
+            });
+            gsap.from('[data-bloco]', {
+                opacity: 0,
+                y: 16,
+                duration: 0.9,
+                stagger: 0.12,
+                delay: 0.5,
+                ease: 'power2.out',
+            });
+        }, rootRef);
+        return () => ctx.revert();
+    }, []);
 
     return (
-        <div className="relative flex min-h-screen flex-col overflow-hidden md:flex-row">
-            <div
-                className={`relative z-10 flex min-h-[60vh] flex-col p-8 font-[family-name:var(--font-mono)] text-sm uppercase tracking-wide md:min-h-screen md:w-1/2 ${
-                    isDarkMode ? 'bg-[#0b0a09] text-[#ece6da]' : 'bg-[#ece6da] text-[#0b0a09]'
-                }`}>
-                <button
-                    type="button"
-                    onClick={() => setIsDarkMode(!isDarkMode)}
-                    className={`absolute top-8 right-8 cursor-pointer rounded-full p-2 transition-colors ${
-                        isDarkMode ? 'hover:bg-white/10' : 'hover:bg-black/10'
-                    }`}
-                    aria-label="Alternar tema">
-                    {isDarkMode ? (
-                        <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            aria-hidden="true">
-                            <circle cx="12" cy="12" r="5" />
-                            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-                        </svg>
-                    ) : (
-                        <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            aria-hidden="true">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-                        </svg>
-                    )}
-                </button>
-
-                {/* Cabeçalho */}
-                <header className="mb-12">
-                    <Link
-                        href="/"
-                        className="mb-10 block font-[family-name:var(--font-medieval)] text-3xl normal-case tracking-normal">
-                        Stopiglia
+        <div ref={rootRef} className={styles.page} data-tema={isDarkMode ? 'escuro' : 'claro'}>
+            <div className={styles.painel}>
+                <div className={styles.topo}>
+                    <Link href="/" className={styles.marca}>
+                        stopiglia
                     </Link>
-                    <h1 className="font-[family-name:var(--font-medieval)] text-6xl normal-case leading-none tracking-normal md:text-7xl">
-                        <span className="text-[#b3261e]">J</span>oão Stopiglia
-                    </h1>
-                    <p className="mt-4 opacity-60">Designer</p>
-                </header>
+                    <button
+                        type="button"
+                        onClick={() => setIsDarkMode(!isDarkMode)}
+                        className={styles.tema}
+                        aria-label="Alternar tema">
+                        {isDarkMode ? 'Claro' : 'Escuro'}
+                    </button>
+                </div>
 
-                {/* Experiências */}
-                <ul className="mb-16 space-y-1">
-                    {EXPERIENCIAS.map((exp) => (
-                        <li key={exp.periodo} className="grid grid-cols-[7rem_7rem_1fr] gap-2">
-                            <span>{exp.empresa}</span>
-                            <span className="opacity-60">{exp.cargo}</span>
-                            <span>{exp.periodo}</span>
-                        </li>
+                <h1 className={styles.nome}>
+                    {['João', 'Stopiglia'].map((palavra) => (
+                        <span key={palavra} className={styles.mascara}>
+                            <span data-linha>{palavra}</span>
+                        </span>
                     ))}
-                </ul>
+                </h1>
 
-                {/* Links */}
-                <nav className="mt-auto flex flex-wrap gap-x-4 gap-y-1">
-                    {LINKS.map((link) => (
-                        <Link
-                            key={link.nome}
-                            href={link.href}
-                            className="transition-colors hover:text-[#b3261e]">
-                            {link.nome}
-                        </Link>
-                    ))}
-                </nav>
+                <p data-bloco className={styles.bio}>
+                    {BIO}
+                </p>
+
+                <section data-bloco className={styles.bloco}>
+                    <h2 className={styles.rotulo}>Experiência</h2>
+                    <ul className={styles.lista}>
+                        {EXPERIENCIAS.map((exp) => (
+                            <li key={exp.periodo}>
+                                <span className={styles.periodo}>{exp.periodo}</span>
+                                <span className={styles.empresa}>{exp.empresa}</span>
+                                <span className={styles.cargo}>{exp.cargo}</span>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+
+                <section data-bloco className={styles.bloco}>
+                    <h2 className={styles.rotulo}>Contato</h2>
+                    <nav className={styles.links}>
+                        {LINKS.map((link) =>
+                            link.href.startsWith('/') ? (
+                                <Link key={link.nome} href={link.href}>
+                                    {link.nome}
+                                </Link>
+                            ) : (
+                                <a key={link.nome} href={link.href} target="_blank" rel="noopener noreferrer">
+                                    {link.nome} ↗
+                                </a>
+                            ),
+                        )}
+                    </nav>
+                </section>
+
+                <p className={styles.rodape}>{LOCALIZACAO}</p>
             </div>
 
-            <div className="relative h-[40vh] md:h-auto md:w-1/2">
+            <div className={styles.shader}>
                 <Dithering
                     style={{ position: 'absolute', inset: 0 }}
                     colorBack={isDarkMode ? '#0b0a09' : '#ece6da'}
-                    colorFront={isDarkMode ? '#b3261e' : '#0b0a09'}
+                    colorFront="#f2600c"
                     shape="swirl"
                     type="4x4"
                     size={3}

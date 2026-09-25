@@ -1,5 +1,7 @@
 // Edite aqui seus projetos. Para trocar as fotos, substitua os arquivos em /public/projetos
 // (ou aponte "imagem" para outro caminho/URL).
+// "slug" é o endereço da página do projeto: /projetos/<slug>
+// "galeria" são as imagens da página do projeto (1ª e 4ª largas, 2ª e 3ª verticais).
 export const PROJETOS = [
     {
         id: 1,
@@ -9,6 +11,15 @@ export const PROJETOS = [
         tipo: 'BRANDING',
         ano: '2026',
         imagem: '/projetos/projeto-1.jpg',
+        slug: 'projeto-um',
+        descricao:
+            'Descrição do projeto: o desafio, o processo e o resultado. Troque este texto por um resumo de dois ou três parágrafos contando o que você fez.',
+        galeria: [
+            '/projetos/projeto-1-1.jpg',
+            '/projetos/projeto-1-2.jpg',
+            '/projetos/projeto-1-3.jpg',
+            '/projetos/projeto-1-4.jpg',
+        ],
     },
     {
         id: 2,
@@ -18,6 +29,15 @@ export const PROJETOS = [
         tipo: 'REVISTA',
         ano: '2026',
         imagem: '/projetos/projeto-2.jpg',
+        slug: 'projeto-dois',
+        descricao:
+            'Descrição do projeto: o desafio, o processo e o resultado. Troque este texto por um resumo de dois ou três parágrafos contando o que você fez.',
+        galeria: [
+            '/projetos/projeto-2-1.jpg',
+            '/projetos/projeto-2-2.jpg',
+            '/projetos/projeto-2-3.jpg',
+            '/projetos/projeto-2-4.jpg',
+        ],
     },
     {
         id: 3,
@@ -27,6 +47,15 @@ export const PROJETOS = [
         tipo: 'APLICATIVO',
         ano: '2025',
         imagem: '/projetos/projeto-3.jpg',
+        slug: 'projeto-tres',
+        descricao:
+            'Descrição do projeto: o desafio, o processo e o resultado. Troque este texto por um resumo de dois ou três parágrafos contando o que você fez.',
+        galeria: [
+            '/projetos/projeto-3-1.jpg',
+            '/projetos/projeto-3-2.jpg',
+            '/projetos/projeto-3-3.jpg',
+            '/projetos/projeto-3-4.jpg',
+        ],
     },
     {
         id: 4,
@@ -36,6 +65,15 @@ export const PROJETOS = [
         tipo: 'EXPERIMENTO',
         ano: '2025',
         imagem: '/projetos/projeto-4.jpg',
+        slug: 'projeto-quatro',
+        descricao:
+            'Descrição do projeto: o desafio, o processo e o resultado. Troque este texto por um resumo de dois ou três parágrafos contando o que você fez.',
+        galeria: [
+            '/projetos/projeto-4-1.jpg',
+            '/projetos/projeto-4-2.jpg',
+            '/projetos/projeto-4-3.jpg',
+            '/projetos/projeto-4-4.jpg',
+        ],
     },
     {
         id: 5,
@@ -45,6 +83,15 @@ export const PROJETOS = [
         tipo: 'PRODUTO',
         ano: '2024',
         imagem: '/projetos/projeto-5.jpg',
+        slug: 'projeto-cinco',
+        descricao:
+            'Descrição do projeto: o desafio, o processo e o resultado. Troque este texto por um resumo de dois ou três parágrafos contando o que você fez.',
+        galeria: [
+            '/projetos/projeto-5-1.jpg',
+            '/projetos/projeto-5-2.jpg',
+            '/projetos/projeto-5-3.jpg',
+            '/projetos/projeto-5-4.jpg',
+        ],
     },
     {
         id: 6,
@@ -54,6 +101,15 @@ export const PROJETOS = [
         tipo: 'SITE',
         ano: '2024',
         imagem: '/projetos/projeto-6.jpg',
+        slug: 'projeto-seis',
+        descricao:
+            'Descrição do projeto: o desafio, o processo e o resultado. Troque este texto por um resumo de dois ou três parágrafos contando o que você fez.',
+        galeria: [
+            '/projetos/projeto-6-1.jpg',
+            '/projetos/projeto-6-2.jpg',
+            '/projetos/projeto-6-3.jpg',
+            '/projetos/projeto-6-4.jpg',
+        ],
     },
 ];
 
@@ -65,8 +121,8 @@ export const CONFIG = {
 
 export const LINKS = [
     { nome: 'Sobre', href: '/sobre' },
-    { nome: 'Behance', href: 'https://www.behance.net/seu-usuario' },
-    { nome: 'Instagram', href: 'https://www.instagram.com/seu-usuario' },
+    { nome: 'Behance', href: 'https://www.behance.net/joaostopiglia' },
+    { nome: 'Instagram', href: 'https://www.instagram.com/joao_stopiglia/' },
     { nome: 'Email', href: 'mailto:joao.stopiglia4@gmail.com' },
 ];
 

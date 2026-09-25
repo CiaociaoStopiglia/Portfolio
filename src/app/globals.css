@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+:root {
+    --bg: #0b0a09;
+    --fg: #ece6da;
+    --muted: rgba(236, 230, 218, 0.45);
+    --line: rgba(236, 230, 218, 0.14);
+    --accent: #f2600c;
+    --gutter: clamp(1rem, 3vw, 2.5rem);
+}
+
 * {
     box-sizing: border-box;
 }
@@ -8,4 +17,11 @@ html,
 body {
     margin: 0;
     padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+}
+
+::selection {
+    background: var(--accent);
+    color: var(--bg);
 }

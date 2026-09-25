@@ -3,46 +3,16 @@
 import { gsap } from 'gsap';
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import Link from 'next/link';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Cantos, { Rodape } from './Cantos';
+import Cena3D from './Cena3D';
 import styles from './Portfolio.module.css';
 
 gsap.registerPlugin(ScrambleTextPlugin);
 
-const CAMPOS = ['titulo', 'cliente', 'categoria', 'tipo', 'ano'];
+const CAMPOS = ['cliente', 'categoria', 'ano'];
 
-// Relógio no canto inferior direito
-function TimeDisplay({ config }) {
-    const [time, setTime] = useState({ hours: '', minutes: '', dayPeriod: '' });
-
-    useEffect(() => {
-        const formatter = new Intl.DateTimeFormat('pt-BR', {
-            timeZone: config.timeZone,
-            hour: '2-digit',
-            minute: '2-digit',
-        });
-        const updateTime = () => {
-            const parts = formatter.formatToParts(new Date());
-            setTime({
-                hours: parts.find((p) => p.type === 'hour')?.value || '',
-                minutes: parts.find((p) => p.type === 'minute')?.value || '',
-            });
-        };
-
-        updateTime();
-        const interval = setInterval(updateTime, config.timeUpdateInterval);
-        return () => clearInterval(interval);
-    }, [config.timeZone, config.timeUpdateInterval]);
-
-    return (
-        <time className={`${styles.cornerItem} ${styles.bottomRight}`}>
-            {time.hours}
-            <span className={styles.timeBlink}>:</span>
-            {time.minutes}
-        </time>
-    );
-}
-
-// Linha de projeto
+// Linha do índice de projetos
 function ProjectItem({ project, index, onActivate, isActive, ref }) {
     const textRefs = useRef({});
 
@@ -53,12 +23,12 @@ function ProjectItem({ project, index, onActivate, isActive, ref }) {
             gsap.killTweensOf(el);
             if (isActive) {
                 gsap.to(el, {
-                    duration: 0.8,
+                    duration: 0.7,
                     scrambleText: {
                         text: project[key],
-                        chars: 'ᚠᚢᚦᚨᚱᚲ✠†‡§¶01',
-                        revealDelay: 0.3,
-                        speed: 0.4,
+                        chars: 'upperCase',
+                        revealDelay: 0.2,
+                        speed: 0.5,
                     },
                 });
             } else {
@@ -71,48 +41,70 @@ function ProjectItem({ project, index, onActivate, isActive, ref }) {
         <li
             ref={ref}
             className={`${styles.projectItem} ${isActive ? styles.active : ''}`}
-            onMouseEnter={() => onActivate(index, project.imagem)}>
-            {CAMPOS.map((key) => (
-                <span
-                    key={key}
-                    ref={(el) => {
-                        textRefs.current[key] = el;
-                    }}
-                    className={`${styles.projectData} ${styles[key]}`}>
-                    {project[key]}
+            onMouseEnter={() => onActivate(index)}>
+            <Link href={`/projetos/${project.slug}`} className={styles.projectLink}>
+                <span className={styles.numero}>{String(index + 1).padStart(2, '0')}</span>
+                <span className={styles.titulo}>{project.titulo}</span>
+                {CAMPOS.map((key) => (
+                    <span
+                        key={key}
+                        ref={(el) => {
+                            textRefs.current[key] = el;
+                        }}
+                        className={`${styles.projectData} ${styles[key]}`}>
+                        {project[key]}
+                    </span>
+                ))}
+                <span className={styles.seta} aria-hidden="true">
+                    →
                 </span>
-            ))}
+            </Link>
         </li>
     );
 }
 
-export default function Portfolio({ projetos = [], config = {}, links = [], localizacao = '', frase }) {
+export default function Portfolio({ projetos = [], config = {}, frase }) {
     const [activeIndex, setActiveIndex] = useState(-1);
+    const imagens = useMemo(() => projetos.map((p) => p.imagem), [projetos]);
 
-    const backgroundRef = useRef(null);
+    const rootRef = useRef(null);
     const idleTimerRef = useRef(null);
     const idleAnimationRef = useRef(null);
     const projectItemsRef = useRef([]);
 
-    // Pré-carrega as imagens
+    // Entrada: a frase sobe palavra por palavra e o índice aparece em sequência
     useEffect(() => {
-        projetos.forEach((p) => {
-            if (p.imagem) {
-                const img = new Image();
-                img.src = p.imagem;
-            }
-        });
-    }, [projetos]);
+        const ctx = gsap.context(() => {
+            gsap.from('[data-linha]', {
+                yPercent: 110,
+                duration: 1.2,
+                ease: 'power4.out',
+                stagger: 0.1,
+                delay: 0.3,
+            });
+            gsap.from('[data-fade]', { opacity: 0, duration: 1, delay: 0.9 });
+            gsap.from(projectItemsRef.current.filter(Boolean), {
+                opacity: 0,
+                y: 12,
+                duration: 0.6,
+                stagger: 0.06,
+                delay: 1,
+                ease: 'power2.out',
+            });
+        }, rootRef);
+        return () => ctx.revert();
+    }, []);
 
+    // Piscada do índice quando ninguém mexe (do componente original)
     const startIdleAnimation = useCallback(() => {
         if (idleAnimationRef.current) return;
         const items = projectItemsRef.current.filter(Boolean);
-        const timeline = gsap.timeline({ repeat: -1, repeatDelay: 2 });
+        const timeline = gsap.timeline({ repeat: -1, repeatDelay: 3 });
 
         items.forEach((item, i) => {
             const hideTime = i * 0.05;
             const showTime = items.length * 0.05 * 0.5 + i * 0.05;
-            timeline.to(item, { opacity: 0.05, duration: 0.1, ease: 'power2.inOut' }, hideTime);
+            timeline.to(item, { opacity: 0.1, duration: 0.1, ease: 'power2.inOut' }, hideTime);
             timeline.to(item, { opacity: 1, duration: 0.1, ease: 'power2.inOut' }, showTime);
         });
 
@@ -139,33 +131,16 @@ export default function Portfolio({ projetos = [], config = {}, links = [], loca
     }, [config.idleDelay, startIdleAnimation, stopIdleTimer]);
 
     const handleActivate = useCallback(
-        (index, imageUrl) => {
+        (index) => {
             stopIdleAnimation();
             stopIdleTimer();
-            if (activeIndex === index) return;
             setActiveIndex(index);
-
-            const bg = backgroundRef.current;
-            if (imageUrl && bg) {
-                bg.style.transition = 'none';
-                bg.style.transform = 'scale(1.2)';
-                bg.style.backgroundImage = `url(${imageUrl})`;
-                bg.style.opacity = '1';
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        bg.style.transition =
-                            'opacity 0.6s ease, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                        bg.style.transform = 'scale(1)';
-                    });
-                });
-            }
         },
-        [activeIndex, stopIdleAnimation, stopIdleTimer],
+        [stopIdleAnimation, stopIdleTimer],
     );
 
-    const handleContainerMouseLeave = useCallback(() => {
+    const handleListLeave = useCallback(() => {
         setActiveIndex(-1);
-        if (backgroundRef.current) backgroundRef.current.style.opacity = '0';
         startIdleTimer();
     }, [startIdleTimer]);
 
@@ -178,15 +153,44 @@ export default function Portfolio({ projetos = [], config = {}, links = [], loca
     }, [startIdleTimer, stopIdleTimer, stopIdleAnimation]);
 
     return (
-        <div className={`${styles.container} ${activeIndex !== -1 ? styles.hasActive : ''}`}>
-            <div ref={backgroundRef} className={styles.backgroundImage} aria-hidden="true" />
+        <div
+            ref={rootRef}
+            className={`${styles.container} ${activeIndex !== -1 ? styles.hasActive : ''}`}>
+            <Cena3D
+                className={styles.cena}
+                imagens={imagens}
+                imagem={projetos[activeIndex]?.imagem ?? null}
+            />
+            <Cantos />
 
-            <header className={styles.hero}>
-                <h1 className={styles.frase}>{frase?.texto}</h1>
-                {frase?.autor && <p className={styles.autor}>— {frase.autor}</p>}
-            </header>
+            <section className={styles.hero}>
+                <p className={styles.apresentacao} data-fade>
+                    João Stopiglia, designer gráfico em São Paulo. Identidade visual, editorial e
+                    interfaces.
+                </p>
+                <h1 className={styles.frase}>
+                    {frase?.texto.split(' ').map((palavra) => (
+                        <span key={palavra} className={styles.mascara}>
+                            <span data-linha>{palavra}</span>
+                        </span>
+                    ))}
+                </h1>
+                {frase?.autor && (
+                    <p className={styles.autor} data-fade>
+                        {frase.autor}
+                    </p>
+                )}
+            </section>
 
-            <main className={styles.portfolio} onMouseLeave={handleContainerMouseLeave}>
+            <main className={styles.indice} onMouseLeave={handleListLeave}>
+                <div className={styles.cabecalho} aria-hidden="true">
+                    <span>Nº</span>
+                    <span>Projeto</span>
+                    <span className={styles.cliente}>Cliente</span>
+                    <span className={styles.categoria}>Disciplina</span>
+                    <span className={styles.ano}>Ano</span>
+                    <span />
+                </div>
                 <ul className={styles.projectList}>
                     {projetos.map((project, index) => (
                         <ProjectItem
@@ -203,28 +207,7 @@ export default function Portfolio({ projetos = [], config = {}, links = [], loca
                 </ul>
             </main>
 
-            <aside>
-                <div className={`${styles.cornerItem} ${styles.topLeft}`}>
-                    <div className={styles.cornerSquare} aria-hidden="true" />
-                    <span className={styles.nome}>Stopiglia</span>
-                </div>
-                <nav className={`${styles.cornerItem} ${styles.topRight}`}>
-                    {links.map((link, i) => (
-                        <span key={link.nome}>
-                            {i > 0 && ' | '}
-                            {link.href.startsWith('/') ? (
-                                <Link href={link.href}>{link.nome}</Link>
-                            ) : (
-                                <a href={link.href} target="_blank" rel="noopener noreferrer">
-                                    {link.nome}
-                                </a>
-                            )}
-                        </span>
-                    ))}
-                </nav>
-                <div className={`${styles.cornerItem} ${styles.bottomLeft}`}>{localizacao}</div>
-                <TimeDisplay config={config} />
-            </aside>
+            <Rodape />
         </div>
     );
 }

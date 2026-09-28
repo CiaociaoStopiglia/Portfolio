@@ -1,21 +1,18 @@
 'use client';
 
 import { gsap } from 'gsap';
-import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Cantos, { Rodape } from './Cantos';
 import styles from './Projeto.module.css';
 
-gsap.registerPlugin(ScrambleTextPlugin, ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger);
 
 const dois = (n) => String(n).padStart(2, '0');
 
 export default function Projeto({ projeto, proximo, numero, total }) {
     const rootRef = useRef(null);
-    const proximoRef = useRef(null);
-    const [proximoAtivo, setProximoAtivo] = useState(false);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -44,11 +41,11 @@ export default function Projeto({ projeto, proximo, numero, total }) {
             );
             gsap.fromTo(
                 '[data-capa] img',
-                { scale: 1.25, yPercent: -6 },
-                { scale: 1.1, duration: 1.8, ease: 'power3.out', delay: 0.4 },
+                { scale: 1.25 },
+                { scale: 1.15, duration: 1.8, ease: 'power3.out', delay: 0.4 },
             );
             gsap.to('[data-capa] img', {
-                yPercent: 6,
+                yPercent: 5,
                 ease: 'none',
                 scrollTrigger: { trigger: '[data-capa]', start: 'top top', end: 'bottom top', scrub: true },
             });
@@ -75,21 +72,6 @@ export default function Projeto({ projeto, proximo, numero, total }) {
 
         return () => ctx.revert();
     }, []);
-
-    // Próximo projeto: embaralha o título no hover (efeito da home)
-    useEffect(() => {
-        const el = proximoRef.current;
-        if (!el) return;
-        gsap.killTweensOf(el);
-        if (proximoAtivo) {
-            gsap.to(el, {
-                duration: 0.8,
-                scrambleText: { text: proximo.titulo, chars: 'upperCase', revealDelay: 0.25, speed: 0.5 },
-            });
-        } else {
-            el.textContent = proximo.titulo;
-        }
-    }, [proximoAtivo, proximo.titulo]);
 
     const ficha = [
         ['Cliente', projeto.cliente],
@@ -156,16 +138,14 @@ export default function Projeto({ projeto, proximo, numero, total }) {
 
             <Link
                 href={`/projetos/${proximo.slug}`}
-                className={`${styles.proximo} ${proximoAtivo ? styles.proximoAtivo : ''}`}
-                onMouseEnter={() => setProximoAtivo(true)}
-                onMouseLeave={() => setProximoAtivo(false)}>
+                className={styles.proximo}>
                 <div
                     className={styles.proximoFundo}
                     style={{ backgroundImage: `url(${proximo.imagem})` }}
                     aria-hidden="true"
                 />
                 <span className={styles.proximoRotulo}>Próximo projeto</span>
-                <span ref={proximoRef} className={styles.proximoTitulo}>
+                <span className={styles.proximoTitulo}>
                     {proximo.titulo}
                 </span>
             </Link>

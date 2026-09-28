@@ -9,11 +9,11 @@
     justify-content: space-between;
     gap: 1rem;
     padding: 1.25rem var(--gutter);
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
     color: var(--fg);
-    font-family: var(--font-mono), ui-monospace, monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 0.8125rem;
     pointer-events: none;
 }
 
@@ -30,10 +30,11 @@
 }
 
 .nome {
-    font-family: var(--font-medieval), serif;
-    font-size: 1.5rem;
-    letter-spacing: 0;
-    text-transform: uppercase;
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.02em;
 }
 
 .nav {
@@ -84,10 +85,8 @@
     padding: 1.25rem var(--gutter);
     border-top: 1px solid var(--line);
     color: var(--muted);
-    font-family: var(--font-mono), ui-monospace, monospace;
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 0.75rem;
 }
 
 .rodape > :last-child {

@@ -1,6 +1,6 @@
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { EB_Garamond, IBM_Plex_Mono, UnifrakturMaguntia } from 'next/font/google';
+import { Inter, Inter_Tight, UnifrakturMaguntia } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 
 const medieval = UnifrakturMaguntia({
@@ -9,17 +9,14 @@ const medieval = UnifrakturMaguntia({
     variable: '--font-medieval',
 });
 
-const serif = EB_Garamond({
-    weight: ['400', '500'],
-    style: ['normal', 'italic'],
+const display = Inter_Tight({
     subsets: ['latin'],
-    variable: '--font-serif',
+    variable: '--font-display',
 });
 
-const mono = IBM_Plex_Mono({
-    weight: ['400', '500'],
+const sans = Inter({
     subsets: ['latin'],
-    variable: '--font-mono',
+    variable: '--font-sans',
 });
 
 export const metadata = {
@@ -29,7 +26,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="pt-BR" className={`${medieval.variable} ${serif.variable} ${mono.variable}`}>
+        <html lang="pt-BR" className={`${display.variable} ${medieval.variable} ${sans.variable}`}>
             <body className="min-h-screen antialiased">
                 <AntdRegistry>{children}</AntdRegistry>
                 <Toaster />

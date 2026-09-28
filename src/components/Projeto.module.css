@@ -2,10 +2,9 @@
     min-height: 100vh;
     background: var(--bg);
     color: var(--fg);
-    font-family: var(--font-mono), ui-monospace, monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.4;
 }
 
 /* ---------- Abertura ---------- */
@@ -17,6 +16,9 @@
     display: flex;
     justify-content: space-between;
     color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .voltar {
@@ -34,17 +36,18 @@
     flex-wrap: wrap;
     gap: 0 0.25em;
     margin: 2.5rem 0 3.5rem;
-    font-family: var(--font-medieval), serif;
-    font-size: clamp(3.25rem, 11vw, 11rem);
-    font-weight: 400;
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-size: clamp(3rem, 10vw, 10rem);
+    font-weight: 500;
     line-height: 0.92;
-    letter-spacing: 0;
+    letter-spacing: -0.05em;
 }
 
 .mascara {
     display: inline-block;
     overflow: hidden;
-    padding-bottom: 0.08em;
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
 }
 
 .mascara > span {
@@ -64,20 +67,23 @@
 
 .ficha dt {
     color: var(--muted);
-    font-size: 0.65rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .ficha dd {
     margin: 0.5rem 0 0;
-    font-family: var(--font-serif), serif;
-    font-size: 1.25rem;
-    letter-spacing: 0.02em;
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-size: 1.0625rem;
+    font-weight: 500;
 }
 
-/* ---------- Capa ---------- */
+/* ---------- Capa (tela cheia) ---------- */
 .capa {
-    height: 85vh;
-    margin: 0 var(--gutter);
+    width: 100%;
+    height: 100svh;
+    margin: 0;
     overflow: hidden;
 }
 
@@ -99,18 +105,19 @@
 .rotulo {
     margin: 0;
     color: var(--muted);
-    font-size: inherit;
+    font-size: 0.6875rem;
     font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .descricao {
-    max-width: 34ch;
+    max-width: 60ch;
     margin: 0;
-    font-family: var(--font-serif), serif;
-    font-size: clamp(1.4rem, 2.4vw, 2.1rem);
-    line-height: 1.3;
-    letter-spacing: 0;
-    text-transform: none;
+    font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+    text-wrap: pretty;
 }
 
 /* ---------- Galeria ---------- */
@@ -147,6 +154,7 @@
 .figura figcaption {
     margin-top: 0.75rem;
     color: var(--muted);
+    font-size: 0.75rem;
 }
 
 /* ---------- Próximo projeto ---------- */
@@ -177,7 +185,7 @@
         transform 1s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.proximoAtivo .proximoFundo {
+.proximo:hover .proximoFundo {
     opacity: 1;
     transform: scale(1);
 }
@@ -185,6 +193,9 @@
 .proximoRotulo {
     position: relative;
     color: var(--muted);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .proximoRotulo::before {
@@ -199,10 +210,11 @@
 
 .proximoTitulo {
     position: relative;
-    font-family: var(--font-medieval), serif;
-    font-size: clamp(3rem, 10vw, 10rem);
+    font-family: var(--font-display), system-ui, sans-serif;
+    font-size: clamp(3rem, 9vw, 9rem);
+    font-weight: 500;
     line-height: 0.92;
-    letter-spacing: 0;
+    letter-spacing: -0.05em;
 }
 
 /* ---------- Celular ---------- */
@@ -215,9 +227,6 @@
         padding-bottom: 1rem;
     }
 
-    .capa {
-        height: 60vh;
-    }
 
     .texto {
         grid-template-columns: 1fr;

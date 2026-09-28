@@ -19,6 +19,12 @@ body {
     padding: 0;
     background: var(--bg);
     color: var(--fg);
+    font-family: var(--font-sans), system-ui, sans-serif;
+    font-feature-settings: 'tnum' 1, 'cv11' 1;
+}
+
+img {
+    max-width: 100%;
 }
 
 ::selection {

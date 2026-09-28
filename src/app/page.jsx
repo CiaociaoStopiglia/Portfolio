@@ -1,6 +1,6 @@
 import Portfolio from '@/components/Portfolio';
-import { CONFIG, FRASE, PROJETOS } from '@/data/projetos';
+import { FRASE, PROJETOS } from '@/data/projetos';
 
 export default function Home() {
-    return <Portfolio projetos={PROJETOS} config={CONFIG} frase={FRASE} />;
+    return <Portfolio projetos={PROJETOS} frase={FRASE} />;
 }

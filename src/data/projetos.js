@@ -5,7 +5,7 @@
 export const PROJETOS = [
     {
         id: 1,
-        titulo: 'PROJETO UM',
+        titulo: 'Projeto Um',
         cliente: 'CLIENTE A',
         categoria: 'IDENTIDADE VISUAL',
         tipo: 'BRANDING',
@@ -23,7 +23,7 @@ export const PROJETOS = [
     },
     {
         id: 2,
-        titulo: 'PROJETO DOIS',
+        titulo: 'Projeto Dois',
         cliente: 'CLIENTE B',
         categoria: 'EDITORIAL',
         tipo: 'REVISTA',
@@ -41,7 +41,7 @@ export const PROJETOS = [
     },
     {
         id: 3,
-        titulo: 'PROJETO TRÊS',
+        titulo: 'Projeto Três',
         cliente: 'CLIENTE C',
         categoria: 'UI / UX',
         tipo: 'APLICATIVO',
@@ -59,7 +59,7 @@ export const PROJETOS = [
     },
     {
         id: 4,
-        titulo: 'PROJETO QUATRO',
+        titulo: 'Projeto Quatro',
         cliente: 'PESSOAL',
         categoria: 'TIPOGRAFIA',
         tipo: 'EXPERIMENTO',
@@ -77,7 +77,7 @@ export const PROJETOS = [
     },
     {
         id: 5,
-        titulo: 'PROJETO CINCO',
+        titulo: 'Projeto Cinco',
         cliente: 'CLIENTE D',
         categoria: 'EMBALAGEM',
         tipo: 'PRODUTO',
@@ -95,7 +95,7 @@ export const PROJETOS = [
     },
     {
         id: 6,
-        titulo: 'PROJETO SEIS',
+        titulo: 'Projeto Seis',
         cliente: 'CLIENTE E',
         categoria: 'WEB DESIGN',
         tipo: 'SITE',
@@ -116,7 +116,6 @@ export const PROJETOS = [
 export const CONFIG = {
     timeZone: 'America/Sao_Paulo',
     timeUpdateInterval: 1000,
-    idleDelay: 4000,
 };
 
 export const LINKS = [
